@@ -1,5 +1,9 @@
 # Channels2MQTT
 
+[![Docker Hub](https://img.shields.io/badge/docker-zackwag%2Fchannels2mqtt-blue?style=flat-square&logo=docker)](https://hub.docker.com/r/zackwag/channels2mqtt)
+[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
+[![Backend](https://img.shields.io/badge/backend-Python%203.13-3776AB?style=flat-square&logo=python)](https://www.python.org/)
+
 Bridges [Channels DVR](https://getchannels.com/) to Home Assistant via MQTT Discovery — automatically exposing recordings and upcoming scheduled shows as sensors.
 
 ## Sensors
