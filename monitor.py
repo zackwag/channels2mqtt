@@ -35,7 +35,7 @@ DISCOVERY_TOPIC = "homeassistant/sensor/channels2mqtt_latest_recording/config"
 def publish_discovery(client):
     """Publish MQTT discovery config so HA auto-creates the sensor."""
     discovery_payload = {
-        "name": "Channels2MQTT Latest Recording",
+        "name": "Latest Recording",
         "unique_id": "channels2mqtt_latest_recording",
         "state_topic": MQTT_TOPIC,
         "value_template": "{{ value_json.title }}",
