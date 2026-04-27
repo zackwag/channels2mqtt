@@ -53,6 +53,7 @@ services:
 | `POLL_INTERVAL` | ❌ | `60` | Poll interval in seconds |
 | `LATEST_INCLUDE_WATCHED` | ❌ | `false` | Include watched in latest recording |
 | `ALL_INCLUDE_WATCHED` | ❌ | `false` | Include watched in all recordings |
+| `LATEST_INCLUDE_IN_PROGRESS` | ❌ | `false` | Include in-progress recordings in latest |
 
 ## Home Assistant
 
@@ -74,7 +75,7 @@ conditions:
 actions:
   - action: notify.your_device
     data:
-      title: "New DVR Recording"
+      title: "📺 New Recording"
       message: >
         {{ state_attr('sensor.channels_dvr_latest_recording', 'title') }} -
         {{ state_attr('sensor.channels_dvr_latest_recording', 'episode') }}
