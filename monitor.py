@@ -86,6 +86,7 @@ def get_latest_recording():
         log.error(f"Channels2MQTT: Failed to fetch latest recording: {e}")
     return None
 
+
 def build_recording_payload(recording):
     duration_mins = round(recording.get("duration", 0) / 60)
     return {
@@ -240,18 +241,23 @@ def main():
     publish_upcoming_discovery(client)
     publish_all_recordings_discovery(client)
 
-    last_recording_id = None
+    # Seed seen IDs from all currently known recordings so we don't
+    # fire spurious notifications for pre-existing recordings on startup.
+    seen_recording_ids = set()
+    for r in get_all_recordings():
+        seen_recording_ids.add(r.get("id"))
+    log.info(f"Channels2MQTT: Seeded {len(seen_recording_ids)} existing recording ID(s)")
 
     while True:
         # Latest recording
         recording = get_latest_recording()
         if recording:
             current_id = recording.get("id")
-            if current_id != last_recording_id:
+            if current_id not in seen_recording_ids:
                 payload = build_recording_payload(recording)
                 client.publish(MQTT_TOPIC, json.dumps(payload), retain=True)
                 log.info(f"Channels2MQTT: New recording detected: {payload['title']} - {payload['episode']}")
-                last_recording_id = current_id
+                seen_recording_ids.add(current_id)
             else:
                 log.debug("Channels2MQTT: No new recording detected.")
         else:
