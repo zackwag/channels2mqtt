@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/zackwag/channels2mqtt/compare/v1.3.1...v1.4.0) (2026-09-17)
+
+
+### Features
+
+* **ci:** add ruff lint + format check ([#10](https://github.com/zackwag/channels2mqtt/issues/10)) ([759ef68](https://github.com/zackwag/channels2mqtt/commit/759ef68194a7907dc407962dc878eb0773117cbf))
+
 ## [1.3.1](https://github.com/zackwag/channels2mqtt/compare/v1.3.0...v1.3.1) (2026-09-17)
 
 
