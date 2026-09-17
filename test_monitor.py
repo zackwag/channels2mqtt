@@ -1,12 +1,10 @@
-import json
-import os
 import importlib
-from unittest.mock import MagicMock, patch
+import json
 from datetime import datetime, timezone
+from unittest.mock import MagicMock, patch
 
 import pytest
 import requests
-
 
 ENV_DEFAULTS = {
     "CHANNELS_HOST": "localhost",
@@ -27,6 +25,7 @@ def _set_env(monkeypatch):
 @pytest.fixture()
 def monitor():
     import monitor as mod
+
     return importlib.reload(mod)
 
 
@@ -155,7 +154,14 @@ class TestBuildUpcomingPayload:
         assert result["start_time"] == expected_start
 
     def test_missing_item_fields(self, monitor):
-        minimal = {"id": "j2", "name": "X", "start_time": 0, "end_time": 0, "duration": 0, "item": {}}
+        minimal = {
+            "id": "j2",
+            "name": "X",
+            "start_time": 0,
+            "end_time": 0,
+            "duration": 0,
+            "item": {},
+        }
         result = monitor.build_upcoming_payload(minimal)
         assert result["episode"] == ""
         assert result["summary"] == ""
@@ -295,5 +301,6 @@ class TestConfig:
     def test_custom_port(self, monkeypatch):
         monkeypatch.setenv("CHANNELS_PORT", "9999")
         import monitor as mod
+
         mod = importlib.reload(mod)
         assert "9999" in mod.BASE_API
