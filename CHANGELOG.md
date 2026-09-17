@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/zackwag/channels2mqtt/compare/v1.3.0...v1.3.1) (2026-09-17)
+
+
+### Bug Fixes
+
+* **ci:** use RELEASE_PLEASE_TOKEN so releases trigger downstream workflows ([#8](https://github.com/zackwag/channels2mqtt/issues/8)) ([7831b7e](https://github.com/zackwag/channels2mqtt/commit/7831b7ec9f5138a224ba8234ac48dad04e0f3bc3))
+
 ## [1.3.0](https://github.com/zackwag/channels2mqtt/compare/v1.2.0...v1.3.0) (2026-09-17)
 
 
