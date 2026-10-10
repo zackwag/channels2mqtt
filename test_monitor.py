@@ -1,6 +1,6 @@
 import importlib
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -150,7 +150,7 @@ class TestBuildUpcomingPayload:
         assert result["episode"] == "Evening Edition"
         assert result["duration_mins"] == 60
         assert result["channels"] == ["CNN"]
-        expected_start = datetime.fromtimestamp(1700000000, tz=timezone.utc).isoformat()
+        expected_start = datetime.fromtimestamp(1700000000, tz=UTC).isoformat()
         assert result["start_time"] == expected_start
 
     def test_missing_item_fields(self, monitor):
@@ -271,7 +271,7 @@ class TestProcessAllRecordings:
 class TestProcessUpcoming:
     @patch("monitor.get_upcoming_jobs")
     def test_filters_past_jobs(self, mock_fetch, monitor):
-        future_ts = datetime.now(tz=timezone.utc).timestamp() + 10000
+        future_ts = datetime.now(tz=UTC).timestamp() + 10000
         past_ts = 1000
         mock_fetch.return_value = [
             {**SAMPLE_JOB, "start_time": future_ts, "end_time": future_ts + 3600},
