@@ -2,7 +2,7 @@ import json
 import logging
 import os
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import paho.mqtt.client as mqtt
 import requests
@@ -172,8 +172,8 @@ def publish_upcoming_discovery(client):
 
 def build_upcoming_payload(job):
     item = job.get("item", {})
-    start_dt = datetime.fromtimestamp(job["start_time"], tz=timezone.utc).isoformat()
-    end_dt = datetime.fromtimestamp(job["end_time"], tz=timezone.utc).isoformat()
+    start_dt = datetime.fromtimestamp(job["start_time"], tz=UTC).isoformat()
+    end_dt = datetime.fromtimestamp(job["end_time"], tz=UTC).isoformat()
     duration_mins = round(job.get("duration", 0) / 60)
     return {
         "id": job.get("id", ""),
@@ -208,7 +208,7 @@ def get_upcoming_jobs():
 
 
 def process_upcoming(client):
-    now = datetime.now(tz=timezone.utc).timestamp()
+    now = datetime.now(tz=UTC).timestamp()
     jobs = get_upcoming_jobs()
 
     upcoming = [build_upcoming_payload(job) for job in jobs if job.get("start_time", 0) >= now]
