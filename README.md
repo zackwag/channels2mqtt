@@ -54,6 +54,7 @@ services:
 | `LATEST_INCLUDE_WATCHED` | ❌ | `false` | Include watched in latest recording |
 | `ALL_INCLUDE_WATCHED` | ❌ | `false` | Include watched in all recordings |
 | `LATEST_INCLUDE_IN_PROGRESS` | ❌ | `false` | Include in-progress recordings in latest |
+| `INCLUDE_IMPORTS` | ❌ | `true` | Include imported/watched-folder recordings (those without a channel) |
 
 ## Home Assistant
 

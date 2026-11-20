@@ -36,6 +36,7 @@ POLL_INTERVAL = int(os.environ.get("POLL_INTERVAL", "60"))
 LATEST_INCLUDE_WATCHED = get_bool_env("LATEST_INCLUDE_WATCHED", False)
 ALL_INCLUDE_WATCHED = get_bool_env("ALL_INCLUDE_WATCHED", False)
 LATEST_INCLUDE_IN_PROGRESS = get_bool_env("LATEST_INCLUDE_IN_PROGRESS", False)
+INCLUDE_IMPORTS = get_bool_env("INCLUDE_IMPORTS", True)
 
 BASE_API = f"http://{CHANNELS_HOST}:{CHANNELS_PORT}/api/v1/all?order=desc"
 RECORDINGS_API = BASE_API if LATEST_INCLUDE_WATCHED else f"{BASE_API}&watched=false"
@@ -78,6 +79,8 @@ def get_latest_recording():
         recordings = response.json()
         if not LATEST_INCLUDE_IN_PROGRESS:
             recordings = [r for r in recordings if r.get("completed", False)]
+        if not INCLUDE_IMPORTS:
+            recordings = [r for r in recordings if r.get("channel")]
         if recordings:
             return recordings[0]
     except requests.RequestException as e:
@@ -132,7 +135,10 @@ def get_all_recordings():
     try:
         response = requests.get(ALL_API, timeout=10)
         response.raise_for_status()
-        return response.json()
+        recordings = response.json()
+        if not INCLUDE_IMPORTS:
+            recordings = [r for r in recordings if r.get("channel")]
+        return recordings
     except requests.RequestException as e:
         log.error(f"Channels2MQTT: Failed to fetch all recordings: {e}")
     return []
