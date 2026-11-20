@@ -198,6 +198,17 @@ class TestGetLatestRecording:
         mock_get.return_value = MagicMock(status_code=200, json=MagicMock(return_value=[]))
         assert monitor.get_latest_recording() is None
 
+    @patch("monitor.requests.get")
+    def test_excludes_imports(self, mock_get, monitor, monkeypatch):
+        monkeypatch.setattr(monitor, "INCLUDE_IMPORTS", False)
+        monkeypatch.setattr(monitor, "LATEST_INCLUDE_IN_PROGRESS", False)
+        recs = [
+            {"id": "1", "completed": True},  # no channel = import
+            {"id": "2", "completed": True, "channel": "NBC"},
+        ]
+        mock_get.return_value = MagicMock(status_code=200, json=MagicMock(return_value=recs))
+        assert monitor.get_latest_recording()["id"] == "2"
+
     @patch("monitor.requests.get", side_effect=requests.RequestException("timeout"))
     def test_returns_none_on_error(self, mock_get, monitor):
         assert monitor.get_latest_recording() is None
@@ -209,6 +220,18 @@ class TestGetAllRecordings:
         recs = [{"id": "1"}, {"id": "2"}]
         mock_get.return_value = MagicMock(status_code=200, json=MagicMock(return_value=recs))
         assert len(monitor.get_all_recordings()) == 2
+
+    @patch("monitor.requests.get")
+    def test_excludes_imports(self, mock_get, monitor, monkeypatch):
+        monkeypatch.setattr(monitor, "INCLUDE_IMPORTS", False)
+        recs = [
+            {"id": "1"},  # no channel = import
+            {"id": "2", "channel": "NBC"},
+        ]
+        mock_get.return_value = MagicMock(status_code=200, json=MagicMock(return_value=recs))
+        result = monitor.get_all_recordings()
+        assert len(result) == 1
+        assert result[0]["id"] == "2"
 
     @patch("monitor.requests.get", side_effect=requests.RequestException("err"))
     def test_returns_empty_on_error(self, mock_get, monitor):
