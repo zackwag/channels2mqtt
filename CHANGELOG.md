@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/zackwag/channels2mqtt/compare/v1.4.1...v1.5.0) (2026-11-20)
+
+
+### Features
+
+* add INCLUDE_IMPORTS flag to filter out watched-folder recordings ([#17](https://github.com/zackwag/channels2mqtt/issues/17)) ([4b19b26](https://github.com/zackwag/channels2mqtt/commit/4b19b26285f50aa720bd6dcda6859e60b0c154cb))
+
 ## [1.4.1](https://github.com/zackwag/channels2mqtt/compare/v1.4.0...v1.4.1) (2026-11-11)
 
 
