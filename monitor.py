@@ -217,7 +217,11 @@ def process_upcoming(client):
     now = datetime.now(tz=UTC).timestamp()
     jobs = get_upcoming_jobs()
 
-    upcoming = [build_upcoming_payload(job) for job in jobs if job.get("start_time", 0) >= now]
+    upcoming = [
+        build_upcoming_payload(job)
+        for job in jobs
+        if job.get("start_time", 0) >= now and not job.get("skipped", False)
+    ]
 
     payload = {"count": len(upcoming), "recordings": upcoming}
 
