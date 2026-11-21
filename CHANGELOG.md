@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1](https://github.com/zackwag/channels2mqtt/compare/v1.5.0...v1.5.1) (2026-11-21)
+
+
+### Bug Fixes
+
+* exclude skipped jobs from upcoming recordings ([#20](https://github.com/zackwag/channels2mqtt/issues/20)) ([93dd616](https://github.com/zackwag/channels2mqtt/commit/93dd616881a3420e657dcc3617d1545ed9ab2d14))
+
 ## [1.5.0](https://github.com/zackwag/channels2mqtt/compare/v1.4.1...v1.5.0) (2026-11-20)
 
 
