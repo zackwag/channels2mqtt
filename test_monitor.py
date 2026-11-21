@@ -305,6 +305,19 @@ class TestProcessUpcoming:
         payload = json.loads(client.publish.call_args[0][1])
         assert payload["count"] == 1
 
+    @patch("monitor.get_upcoming_jobs")
+    def test_filters_skipped_jobs(self, mock_fetch, monitor):
+        future_ts = datetime.now(tz=UTC).timestamp() + 10000
+        mock_fetch.return_value = [
+            {**SAMPLE_JOB, "start_time": future_ts, "end_time": future_ts + 3600},
+            {**SAMPLE_JOB, "start_time": future_ts, "end_time": future_ts + 3600, "skipped": True},
+        ]
+        client = MagicMock()
+        monitor.process_upcoming(client)
+        payload = json.loads(client.publish.call_args[0][1])
+        assert payload["count"] == 1
+        assert payload["recordings"][0]["skipped"] is False
+
 
 # --- Config / URL construction ---
 
